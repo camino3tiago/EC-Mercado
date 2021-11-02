@@ -1,0 +1,8 @@
+secrets/
+db.sqlite3
+.python-version
+base/__pycache__/
+base/models/__pycache__/
+base/views/__pycache__/
+base/migrations/__pycache__/
+config/__pycache__/
