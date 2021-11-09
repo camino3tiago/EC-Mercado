@@ -11,7 +11,7 @@ def create_id():
 def upload_image_to(instance, filename):
     item_id = instance.id   # instance = モデルの各インスタンス(instance.id=item.idと同様)
     # staticフォルダの中のitemsフォルダのitem_idごとのフォルダの中のfilename
-    return os.path.join('static', 'items', item_id, filename)
+    return os.path.join('media', 'items', item_id, filename)
 # -----------------------------------------------------------------------------------
 
 class Tag(models.Model):

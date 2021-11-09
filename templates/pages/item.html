@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
- 
+{% load static %}
+
 {% block main %}
 <div class="container">
   <div class="row my-5">
     <div class="col-12 col-lg-6">
       <div class="bg-white border overflow-hidden">
-        <img src="/{{ object.image }}" width="100%">
+        <img src="{{ object.image.url }}" width="100%" style='max-height:320px; object-fit:contain;'>
       </div>
     </div>
     <div class="col-12 col-lg-6">
@@ -39,5 +40,18 @@
       </div>
     </div>
   </div>
+
+  <h2>おすすめ</h2>
+  <div class='row mb-5'>
+    {% for object in ADDITIONAL_ITEMS %}
+        {% if forloop.counter <= 8 %}
+        <div class='col-12 col-lg-3 my-3'>
+          {% include 'snippets/item_add_box.html' %}
+        </div>
+        {% endif %}
+    {% endfor %}
+  </div>
+
+
 </div>
 {% endblock %}

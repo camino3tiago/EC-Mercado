@@ -1,23 +1,65 @@
 {% extends 'base.html' %}
+{% load static %}
  
 {% block main %}
  
-<h2>カート</h2>
+<div class="container ">
+  <div class="row my-5">
+    <div class="col-12">
+      <h2>カート</h2>
+      {% if object_list|length != 0 %}
+      <table class="table mb-5 text-right">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">品名</th>
+            <th scope="col">単価</th>
+            <th scope="col">個数</th>
+            <th scope="col">計</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for object in object_list %}
+          <tr>
+            <td>No.{{forloop.counter}}</td>
+            <td>{{object.name}}</td>
+            <td>{{object.price}}</td>
+            <td>{{object.quantity}}</td>
+            <td>{{object.subtotal}}</td>
+            <td><a href="/cart/remove/{{object.pk}}/" class="my-auto btn btn-danger btn-sm">削除</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p class="lead text-right">小計 - ¥{{total}}</p>
+      <p class="lead text-right">税込計 - ¥{{tax_included_total}}</p>
  
-{% for object in object_list %}
-<p>
-  No.{{forloop.counter}}, {{object.name}}, {{object.price}}, {{object.quantity}}, {{object.subtotal}}, <a
-    href="/cart/remove/{{object.pk}}/">削除</a>
-</p>
-{% endfor %}
+      <!-- Checkoutボタン -->
+      <form action="/pay/checkout/" method="POST" class="text-right">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-info">Checkout</button>
+      </form>
  
-<p>小計 - ¥{{total}}</p>
-<p>税込計 - ¥{{tax_included_total}}</p>
- 
-<!-- Checkoutボタン -->
-<form action="/pay/checkout/" method="POST">
-  {% csrf_token %}
-  <button type="submit">Checkout</button>
-</form>
+      {% else %}
+      <p class="">ショッピングカートにアイテムがありません。</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <h2>おすすめ</h2>
+  <div class='row mb-5'>
+    {% for object in ADDITIONAL_ITEMS %}
+      {% if object_list|length == 0 or object not in object_list %}
+        {% if forloop.counter <= 8 %}
+        <div class='col-12 col-lg-3 my-3'>
+          {% include 'snippets/item_add_box.html' %}
+        </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
  
 {% endblock %}
