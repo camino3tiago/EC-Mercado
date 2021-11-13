@@ -185,9 +185,14 @@ MESSAGE_TAGS = {
 # custom_context_processors
 TITLE = 'EC Mercado'
 
-
+# 開発環境では、local_settingsが問題なく読み込まれる
 try:
-    from .local_settings import *
-except ImportError:
+    from .local_settings import *   # DEBUG=Trueに変わる
+# 逆に、本番環境なら、存在しないため、importErrorが起こる
+except ImportError: # DEBUG=Falseのまま
     pass
 
+# 本番環境でのみ実行される処理
+if not DEBUG:
+    import django_heroku
+    django_heroku.settings(locals())
