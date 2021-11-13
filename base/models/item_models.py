@@ -33,8 +33,25 @@ class Category(models.Model):
 
 
 class Item(models.Model):
+    UNIT_CHOICES = (
+        (1, '個'),
+        (2, 'g'),
+        (3, 'ml'),
+        (4, '本'),
+        (4, 'パック'),
+        (5, '袋'),
+        (6, '切れ'),
+        (7, '枚'),
+        (8, '玉'),
+        (9, '束'),
+        (10, '房'),
+    )
     id = models.CharField(default=create_id, primary_key=True, max_length=22, editable=False)
     name = models.CharField(default='', max_length=50)
+    quantity = models.PositiveIntegerField(default=1)
+    unit = models.IntegerField(choices=UNIT_CHOICES, default=1)
+    sub_quantity = models.PositiveIntegerField(null=True, blank=True)
+    sub_unit = models.IntegerField(null=True, blank=True, choices=UNIT_CHOICES)
     price = models.PositiveIntegerField(default=0)
     stock = models.PositiveIntegerField(default=0)
     description = models.TextField(default='', blank=True)
