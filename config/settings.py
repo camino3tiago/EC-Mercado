@@ -26,7 +26,7 @@ root = environ.Path(BASE_DIR / 'secrets')
 # 本番環境用
 env.read_env(root('.env.prod'))    # .env.prodファイルを読み込む
 
-DEBUG = env.bool('DEBUG')
+DEBUG = False
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Quick-start development settings - unsuitable for production
