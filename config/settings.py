@@ -13,10 +13,10 @@ from pathlib import Path
 import os
 from django.contrib import messages
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 環境変数の読み込み
 import environ
 # importしたenvironのEnvクラスから、envというインスタンスを生成
 env = environ.Env() 
@@ -24,23 +24,40 @@ env = environ.Env()
 root = environ.Path(BASE_DIR / 'secrets') 
 
 # 本番環境用
-# if 本番環境であれば、
-    # env.read_env(root('.env.prod))    # .env.prodファイルを読み込む
+env.read_env(root('.env.prod'))    # .env.prodファイルを読み込む
 
-# 開発環境用
-# else:
-env.read_env(root('.env.dev'))
+DEBUG = env.bool('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')
 
+# 本番環境用のDB設定
+import dj_database_url
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env.str('DATABASES_NAME'),
+        'USER': env.str('DATABASES_USER'),
+        'PASSWORD': env.str('DATABASES_PASSWORD'),
+        'HOST': env.str('DATABASES_HOST'),
+        'PORT': env.str('DATABASES_PORT'),
+    }
+}
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+"""
+開発環境用の環境変数は、.env.devから読み込まず、local_settings.pyを読み込むことにしたため、コメントアウト
+env.read_env(root('.env.dev'))  # .env.devを読み込む
+
+DEBUG = env.bool('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+"""
 
 
 # Application definition
@@ -87,17 +104,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
@@ -178,3 +184,10 @@ MESSAGE_TAGS = {
 
 # custom_context_processors
 TITLE = 'EC Mercado'
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+

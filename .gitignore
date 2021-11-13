@@ -6,3 +6,4 @@ base/models/__pycache__/
 base/views/__pycache__/
 base/migrations/__pycache__/
 config/__pycache__/
+local_settings
