@@ -25,7 +25,7 @@
         </p>
         <p class="lead">¥{{object.price}}（税別）</p>
         <p class="lead">{{object.description}}</p>
-        <form action="/cart/add/" method="POST" class="">
+        <form action="{% url 'add_cart' %}" method="POST" class="">
           {% csrf_token %}
           <input type="hidden" name="item_pk" value="{{object.pk}}">
           <p>
