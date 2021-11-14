@@ -1,5 +1,5 @@
 {% load static %}
-<a href="/items/{{object.pk}}/">
+<a href="{% url 'item' object.pk %}">
   <div class="border">
     {% if object.image %}
     <img src="{{ object.image.url }}" style='width:100%; max-height: 145px; object-fit: contain;' class=" bg-white">

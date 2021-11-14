@@ -15,10 +15,10 @@
       <div class="border p-3 text-left text-dark overflow-hidden">
         <h2 class="display-5">{{object.name}}</h2>
         <p class="lead">
-          <a href="/categories/{{object.category.slug}}/"
+          <a href="{% url 'category_list' object.category.slug %}"
             class="badge badge-pill badge-warning">{{object.category.name}}</a>
           {% for tag in object.tags.all %}
-          <a href="/tags/{{tag.slug}}/" class="badge badge-pill badge-light">#{{tag}}</a>
+          <a href="{% url 'tag_list' tag.slug %}" class="badge badge-pill badge-light">#{{tag}}</a>
           {% endfor %}
         </p>
         <p class="lead">残り{{object.stock}}個

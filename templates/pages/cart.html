@@ -27,7 +27,7 @@
             <td>{{object.price}}</td>
             <td>{{object.quantity}}</td>
             <td>{{object.subtotal}}</td>
-            <td><a href="/cart/remove/{{object.pk}}/" class="my-auto btn btn-danger btn-sm">削除</a></td>
+            <td><a href="{% url 'remove_cart' object.pk %}" class="my-auto btn btn-danger btn-sm">削除</a></td>
           </tr>
           {% endfor %}
         </tbody>
