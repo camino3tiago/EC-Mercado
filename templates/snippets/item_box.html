@@ -1,8 +1,9 @@
 {% load static %}
 <a href="/items/{{object.pk}}/">
   <div class="border">
-
+    {% if object.image %}
     <img src="{{ object.image.url }}" style='width:100%; max-height: 145px; object-fit: contain;' class=" bg-white">
+    {% endif %}
     <div class="bg-light text-center text-secondary overflow-hidden">
       <div class="my-2 py-2">
         <h2 class="lead">{{object.name}} - ¥{{object.price}}</h2>
