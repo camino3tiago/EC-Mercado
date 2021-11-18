@@ -13,8 +13,14 @@ class SignUpView(CreateView):
     success_url = '/login/'
 
     def form_valid(self, form):
+        print(form)
         messages.success(self.request, '新規登録が完了しました。続けてログインしてください。')
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        print(form)
+        messages.error(self.request, 'エラーです。')
+        return super().form_invalid(form)
 
 class Login(LoginView):
     template_name = 'pages/login_signup.html'
@@ -25,6 +31,7 @@ class Login(LoginView):
 
     def form_invalid(self, form):
         messages.error(self.request, 'エラーでログインできません。')
+        print(form)
         return super().form_invalid(form)
 
 class AccountUpdateView(LoginRequiredMixin, UpdateView):    # 継承順は、LoginRequiredMixinsを先にする！！

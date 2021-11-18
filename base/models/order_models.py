@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 import datetime
+import pandas as pd
 
 def custom_timestamp_id():
     dt = datetime.datetime.now()

@@ -36,7 +36,7 @@ urlpatterns = [
     # Order
     path('orders/', views.OrderIndexView.as_view(), name='order_list'),
     path('orders/<str:pk>/', views.OrderDetailView.as_view(), name='order'),
-
+    path('orders/csv/<str:pk>/', views.OrderCsvView.as_view(), name='order_csv'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

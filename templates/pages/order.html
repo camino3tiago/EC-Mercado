@@ -4,10 +4,16 @@
 {% block main %}
  
 <div class="container my-5">
+
   <div class="row">
     <div class="col-12">
       <h1>Order</h1>
       <h2 class="my-4">注文情報</h2>
+      <form class='mb-2' action="{% url 'order_csv' object.pk %}" method='GET' enctype='multipart/form-data'>
+        {% csrf_token %}
+          <input type='submit' class='btn btn-primary' value='csvファイル生成' data-toggle="tooltip" data-placement="right" data-html="true">
+      </form> 
+
       <table class="table mb-5">
         <thead>
           <tr>
