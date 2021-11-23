@@ -147,7 +147,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]   # 追記
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')     # 本番環境のみ設定
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -179,7 +178,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'rounded-0 alert alert-warning',
     messages.SUCCESS: 'rounded-0 alert alert-success',
     messages.INFO: 'rounded-0 alert alert-info',
-    messages.DEBUG: 'rounded-0 alert alert-seconday',
+    messages.DEBUG: 'rounded-0 alert alert-secondary',
 }
 
 # custom_context_processors
