@@ -27,6 +27,14 @@ class PaySuccessView(LoginRequiredMixin, TemplateView):
         del request.session['cart']
 
         return super().get(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        order = Order.objects.filter(user=self.request.user).order_by('-created_at')[0]
+        
+        context["items"] = Item.objects.all()
+        return context
+    
 
 class PayCancelView(LoginRequiredMixin, TemplateView):
     template_name = 'pages/cancel.html'

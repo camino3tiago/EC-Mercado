@@ -1,0 +1,11 @@
+<div class='col-md-6 '>
+<h4>レビューを書いてください。</h4>
+<div class="container my-2">
+    <form method="POST" class='input-form' action='{% url "post_review" object.pk %}'>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <input type="submit" value="送信" />
+    </form>
+</div>
+</div>

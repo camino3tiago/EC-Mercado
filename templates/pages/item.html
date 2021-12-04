@@ -54,6 +54,20 @@
     {% endfor %}
   </div>
 
+  <div class='pb-4 mb-4'>
+    <h2>レビュー 平均 {{avg_rate }}</h2>
+    <p>レビュー {{ cnt_rate}}件</p>
+  
+    <div class='d-flex'>
+    {% include 'pages/item_review.html' %}
+
+    <!--この商品を購入している人であれば-->
+    {% if item_pk %}
+    {% include 'pages/post_review.html' %}
+    {% endif %}
+    </div>
+  
+  </div>
 
 </div>
 {% endblock %}

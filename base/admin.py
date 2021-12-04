@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from base.models import Item, Category, Tag, Profile, Order
+from base.models import Item, Category, Tag, Profile, Order, Review
 from django.contrib.auth import get_user_model
 from base.forms import UserCreationForm
 from django.contrib.auth.admin import UserAdmin
@@ -58,5 +58,6 @@ admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(Order)
 admin.site.register(get_user_model(), CustomUserAdmin)
+admin.site.register(Review)
 
 admin.site.unregister(Group)

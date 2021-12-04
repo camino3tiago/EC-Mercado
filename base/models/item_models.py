@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.crypto import get_random_string
+from django.db.models import Avg, Count
 import os
+
 
 # 22文字のidをランダムに生成する関数
 def create_id():

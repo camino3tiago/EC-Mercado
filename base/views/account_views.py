@@ -1,3 +1,4 @@
+from django.urls.base import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin   # ログインしていなければ見れない
@@ -10,15 +11,13 @@ from base.forms import UserCreationForm
 class SignUpView(CreateView):
     template_name = 'pages/login_signup.html'
     form_class = UserCreationForm
-    success_url = '/login/'
+    success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        print(form)
         messages.success(self.request, '新規登録が完了しました。続けてログインしてください。')
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form)
         messages.error(self.request, 'エラーです。')
         return super().form_invalid(form)
 
@@ -31,14 +30,13 @@ class Login(LoginView):
 
     def form_invalid(self, form):
         messages.error(self.request, 'エラーでログインできません。')
-        print(form)
         return super().form_invalid(form)
 
 class AccountUpdateView(LoginRequiredMixin, UpdateView):    # 継承順は、LoginRequiredMixinsを先にする！！
     model = get_user_model()
     template_name = 'pages/account.html'
     fields = ['username', 'email',]
-    success_url = '/account/'
+    success_url = reverse_lazy('top')
 
     # どのユーザーの情報を更新するか明確にするため、get_object()をオーバーライドし、pkを取得
     def get_object(self):
@@ -50,7 +48,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):    # LoginRequiredMixin
     model = Profile
     template_name = 'pages/profile.html'
     fields = ['name', 'zipcode', 'prefecture', 'city', 'address1', 'address2', 'tel']
-    success_url = '/profile/'
+    success_url = reverse_lazy('top')
 
     def get_object(self):
         # URL変数ではなく、現在のユーザーから直接pkを取得

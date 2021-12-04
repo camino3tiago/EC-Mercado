@@ -37,6 +37,10 @@ urlpatterns = [
     path('orders/', views.OrderIndexView.as_view(), name='order_list'),
     path('orders/<str:pk>/', views.OrderDetailView.as_view(), name='order'),
     path('orders/csv/<str:pk>/', views.OrderCsvView.as_view(), name='order_csv'),
+
+    # Review
+    path('items/<str:pk>/review/', views.ReviewListView.as_view(), name='item_reviews'),
+    path('review/item/<str:pk>/', views.PostReviewView.as_view(), name='post_review'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

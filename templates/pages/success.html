@@ -8,6 +8,15 @@
       <!-- 注文履歴確認ページ -->
       <p>注文履歴は<a href="{% url 'order_list' %}">こちら</a></p>
     </div>
+
+    <!-- レビュー投稿ページ -->
+    <div class='col-12'>
+      <p>もしよろしければ、ご注文した製品のレビューをお願いします。</p>
+        {% for item in items %}
+          <a href='{% url "post_review" item %}'></a>
+        {% endfor %}
+    </div>
+
   </div>
 </div>
 {% endblock %}
