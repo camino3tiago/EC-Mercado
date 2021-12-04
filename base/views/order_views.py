@@ -15,6 +15,15 @@ class OrderIndexView(LoginRequiredMixin, ListView):
         # ログインユーザーが注文したもの
         return Order.objects.filter(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["orders"] = Order.objects.filter(user=self.request.user)
+        for order in context['orders']:
+            print(order)
+        print()
+        return context
+
+
 class OrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
     template_name = 'pages/order.html'
@@ -27,36 +36,23 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         obj = self.get_object() # 親のget_object()メソッドを使用して、objに注文情報を入れる(Order.objects.get(pk=pk))
         # json to dict
+        context['orders'] = Order.objects.filter(user=self.request.user)
         context['items'] = json.loads(obj.items) 
         context['shipping'] = json.loads(obj.shipping)
         return context
 
-from django_pandas.io import read_frame
 
-class OrderCsvView(View):
+import csv
+def order_csv_export(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="orders.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['ID', '注文日時', '商品名', '商品価格', '数量', '税抜金額', '税込金額', '出荷日時', 'キャンセル日時',])
+    orders = Order.objects.filter(user=request.user)
+    for order in orders:
+        items = json.loads(order.items) 
+        writer.writerow([order.id, order.created_at, " - ", " - ", " - ", order.amount, order.tax_included, order.shipped_at, order.canceled_at,])
+        for item in items:
+            writer.writerow(['', "", item['name'], item['price'], item['quantity'], "", "", "", "",])
 
-    def get(self, request, pk, *args, **kwargs):
-        order = Order.objects.get(pk=pk)
-        order_items = Order.objects.filter(pk=pk).values_list('items', flat=True)
-        print('---------------------------------')
-        print(order_items.first)
-        print('---------------------------------')
-        df = read_frame(
-            order,
-            fieldnames=[
-                'id', 'items', 'amount', 'tax_included', 'uid', 'shipping',
-            ]
-        )
-        import numpy as np
-        import pandas as pd
-
-        # items_data = {}
-        # df_json = pd.DataFrame(items_data, columns=[''])
-        # storeddata = Order.putframe(df_json)
-        # retrieveddataframe = storeddata.loadframe()        
-        # print(retrieveddataframe)
-        # print(f'\n{type(retrieveddataframe)}\n')
-        response = HttpResponse(content_type='text/csv; charset=utf-8')
-        response['Content-Deiposition'] = 'attachment; filename=orders.csv'
-        df.to_csv(path_or_buf=response, encoding='utf_8_sig', index=None)
-        return response
+    return response

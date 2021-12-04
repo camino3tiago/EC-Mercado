@@ -36,7 +36,7 @@ urlpatterns = [
     # Order
     path('orders/', views.OrderIndexView.as_view(), name='order_list'),
     path('orders/<str:pk>/', views.OrderDetailView.as_view(), name='order'),
-    path('orders/csv/<str:pk>/', views.OrderCsvView.as_view(), name='order_csv'),
+    path('orders/csv/export/', views.order_csv_export, name='order_csv'),
 
     # Review
     path('items/<str:pk>/review/', views.ReviewListView.as_view(), name='item_reviews'),
