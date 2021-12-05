@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base.apps.BaseConfig', # 追記
-
+    'cloudinary',   # 追記（Heroku Cloudinary用）
+    'cloudinary_storage', # 追記（Heroku Cloudinary用）
 ]
 
 MIDDLEWARE = [
@@ -183,6 +184,17 @@ MESSAGE_TAGS = {
 
 # custom_context_processors
 TITLE = 'EC Mercado'
+
+
+# Heroku Cloudinary用
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env.str('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': env.str('CLOUDINARY_API_KEY'),
+    'API_SECRET': env.str('CLOUDINARY_API_SECRET')
+}
+# ImageFieldとcloudinaryの自動紐づけ(上限20MB)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # 開発環境では、local_settingsが問題なく読み込まれる
 try:
