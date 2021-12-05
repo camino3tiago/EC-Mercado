@@ -38,14 +38,15 @@ class ItemDetailView(DetailView, ModelFormMixin):
         context = super().get_context_data(**kwargs)
         context['item'] = super().get_object()
         
-        # 自分の注文（Orderオブジェクト）
-        my_orders = Order.objects.filter(user=self.request.user)
-        
-        # アイテムを購入しているか確認のため、item_pkに、(None/pk)を入れる
-        for order in my_orders:
-            order_item = json.loads(order.items)
-            if order_item[0]['pk'] == context['item'].id:
-                context['item_pk'] = order_item[0]['pk']
+        if self.request.user.is_authenticated:
+            # 自分の注文（Orderオブジェクト）
+            my_orders = Order.objects.filter(user=self.request.user)
+            
+            # アイテムを購入しているか確認のため、item_pkに、(None/pk)を入れる
+            for order in my_orders:
+                order_item = json.loads(order.items)
+                if order_item[0]['pk'] == context['item'].id:
+                    context['item_pk'] = order_item[0]['pk']
 
         # レビュー（レビュー数、平均値含む）
         context['reviews'] = Review.objects.filter(product=context['item'])

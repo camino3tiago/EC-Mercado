@@ -13,14 +13,11 @@ class OrderIndexView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         # ログインユーザーが注文したもの
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["orders"] = Order.objects.filter(user=self.request.user)
-        for order in context['orders']:
-            print(order)
-        print()
         return context
 
 
