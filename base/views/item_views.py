@@ -48,6 +48,10 @@ class ItemDetailView(DetailView, ModelFormMixin):
                 if order_item[0]['pk'] == context['item'].id:
                     context['item_pk'] = order_item[0]['pk']
 
+
+        # おすすめ商品（同じカテゴリー）
+        context["recommended_items"] = Item.objects.filter(is_published=True, category=context["item"].category).exclude(id=context["item"].id)[:8]
+
         # レビュー（レビュー数、平均値含む）
         context['reviews'] = Review.objects.filter(product=context['item'])
         avg_reviews = context['reviews'].aggregate(average=Avg('rate'))
