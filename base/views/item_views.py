@@ -50,7 +50,7 @@ class ItemDetailView(DetailView, ModelFormMixin):
 
 
         # おすすめ商品（同じカテゴリー）
-        context["recommended_items"] = Item.objects.filter(is_published=True, category=context["item"].category).exclude(id=context["item"].id)[:8]
+        context["recommended_items"] = Item.objects.filter(is_published=True, category=context["item"].category).exclude(id=context["item"].id).order_by('-sold_count')[:8]
 
         # レビュー（レビュー数、平均値含む）
         context['reviews'] = Review.objects.filter(product=context['item'])
