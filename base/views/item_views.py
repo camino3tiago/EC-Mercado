@@ -11,19 +11,19 @@ class IndexListView(ListView):
     template_name = 'pages/index.html'
 
 # IndexListViewを関数汎用ビューで記載
-"""
-def index(request):
-    object_list = Item.objects.all()
-    context = {
-        'object_list': object_list,
-    }
-    return render(request,
-        'pages/index.html',
-        context
-    )
-"""
 
-class ItemDetailView(DetailView, ModelFormMixin):
+# def index(request):
+#     object_list = Item.objects.all()
+#     context = {
+#         'object_list': object_list,
+#     }
+#     return render(request,
+#         'pages/index.html',
+#         context
+#     )
+
+
+class ItemDetailView(DetailView):
     model = Item
     template_name = 'pages/item.html'
     form_class = ReviewForm
